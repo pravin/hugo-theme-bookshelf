@@ -1,0 +1,25 @@
+{{- /* Text links to the social networks set under params.social, in display order */ -}}
+{{- $networks := slice
+    (slice "mastodon" "Mastodon")
+    (slice "bluesky" "Bluesky")
+    (slice "github" "GitHub")
+    (slice "twitter" "X")
+    (slice "linkedin" "LinkedIn")
+    (slice "medium" "Medium")
+    (slice "facebook" "Facebook")
+    (slice "email" "Email")
+}}
+{{- $links := slice }}
+{{- range $networks }}
+{{- $key := index . 0 }}{{ $label := index . 1 }}
+{{- with index (site.Params.social | default dict) $key }}
+{{- $links = $links | append (dict "url" . "label" $label "me" (eq $key "mastodon")) }}
+{{- end }}
+{{- end }}
+{{- with $links }}
+<ul class="social">
+    {{- range . }}
+    <li><a href="{{ .url }}" {{- if .me }} rel="me"{{ end }}>{{ .label }}</a></li>
+    {{- end }}
+</ul>
+{{- end }}

@@ -1,0 +1,20 @@
+{{ define "main" }}
+{{- $paginator := .Paginate .Pages.ByDate.Reverse }}
+<div class="wrap">
+    <section class="library {{ if gt (len .Pages) 8 }}library--large{{ end }}" aria-labelledby="library-title">
+        <div class="library__intro">
+            <p class="kicker kicker--ox">{{ if eq .Kind "term" }}Subject{{ else }}Section{{ end }}</p>
+            <h1 id="library-title">{{ .Title }}</h1>
+            <p>{{ len .Pages }} {{ cond (eq (len .Pages) 1) "piece" "pieces" }} on this shelf.{{ with .Description }} {{ . }}{{ end }}</p>
+        </div>
+        <div class="library__shelf">
+            {{- partial "bookshelf/shelf.html" .Pages }}
+        </div>
+    </section>
+    <section aria-labelledby="catalogue-title" class="split__main">
+        <h2 class="kicker" id="catalogue-title">Catalogue</h2>
+        {{- partial "bookshelf/catalogue.html" $paginator.Pages }}
+        {{- partial "pagination.html" $paginator }}
+    </section>
+</div>
+{{ end }}

@@ -1,0 +1,22 @@
+{{- /* Renders pages as spines on shelves, oldest left to newest right, with a divider for each year */ -}}
+{{- $pages := .ByDate }}
+{{- $cfg := site.Params.bookshelf | default dict }}
+{{- $max := $cfg.maxSpines | default 0 | int }}
+{{- if and (gt $max 0) (gt (len $pages) $max) }}{{ $pages = last $max $pages }}{{ end }}
+{{- $maxH := $cfg.maxHeight | default 370 | int }}
+{{- $year := "" }}
+{{- $n := len $pages }}
+<ul class="shelf" style="--maxh: {{ $maxH }}" aria-label="Bookshelf, oldest to newest">
+    {{- range $i, $p := $pages }}
+    {{- $y := cond $p.Date.IsZero "" ($p.Date.Format "2006") }}
+    {{- if and $y (ne $y $year) }}
+    <li class="slot slot--year"><span class="year">{{ $y }}</span></li>
+    {{- $year = $y }}
+    {{- end }}
+    {{- $last := eq (add $i 1) $n }}
+    <li class="slot">
+        {{- partial "bookshelf/spine.html" (dict "page" $p "new" $last) }}
+        {{- if $last }}<span class="bookend" aria-hidden="true"></span>{{ end }}
+    </li>
+    {{- end }}
+</ul>

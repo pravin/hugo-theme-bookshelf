@@ -1,0 +1,15 @@
+{{- /* Cloth colours for spines: a list of {bg, fg}. Override with params.bookshelf.palette */ -}}
+{{- $palette := slice
+    (dict "bg" "#7B2A26" "fg" "#F0E3C2")
+    (dict "bg" "#24395C" "fg" "#E6E0CC")
+    (dict "bg" "#C08A2E" "fg" "#231A0C")
+    (dict "bg" "#2F4A3A" "fg" "#E9DFC0")
+    (dict "bg" "#553047" "fg" "#F0E2D6")
+    (dict "bg" "#2E5560" "fg" "#E6EEE8")
+    (dict "bg" "#9A4A24" "fg" "#F7E9D3")
+    (dict "bg" "#33363B" "fg" "#E8DFC8")
+    (dict "bg" "#8FA08A" "fg" "#1C2219")
+    (dict "bg" "#B9867E" "fg" "#26130F")
+}}
+{{- with site.Params.bookshelf.palette }}{{ $palette = . }}{{ end }}
+{{- return $palette }}

@@ -1,0 +1,39 @@
+{{- /*
+One book spine. Expects a dict: "page", optional "flat" (true for a spine lying
+on its side) and "new" (true to mark the newest volume).
+*/ -}}
+{{- $p := .page }}
+{{- $cfg := site.Params.bookshelf | default dict }}
+{{- $minW := $cfg.minSpine | default 40 | int }}
+{{- $maxW := $cfg.maxSpine | default 120 | int }}
+{{- $full := $cfg.fullSpineWords | default 1500 | int }}
+{{- $minH := $cfg.minHeight | default 280 | int }}
+{{- $maxH := $cfg.maxHeight | default 370 | int }}
+{{- $words := $p.WordCount }}
+{{- if gt $words $full }}{{ $words = $full }}{{ end }}
+{{- $w := add $minW (div (mul (sub $maxW $minW) $words) $full) }}
+{{- $h := add $minH (mod (hash.FNV32a $p.Title) (add 1 (sub $maxH $minH))) }}
+{{- $fs := add 12 (div (sub $w 40) 16) }}
+{{- if gt $fs 18 }}{{ $fs = 18 }}{{ end }}
+{{- if lt $fs 12 }}{{ $fs = 12 }}{{ end }}
+{{- $subject := partial "bookshelf/subject.html" $p }}
+{{- $c := partial "bookshelf/colour.html" ($subject | default $p.Title) }}
+{{- $monogram := $cfg.monogram }}
+{{- if not $monogram }}
+  {{- $monogram = "" }}
+  {{- range split (site.Params.author | default site.Title) " " }}{{ $monogram = printf "%s%s" $monogram (substr . 0 1) }}{{ end }}
+{{- end }}
+{{- $label := $p.Title }}
+{{- if not $p.Date.IsZero }}{{ $label = printf "%s, %s" $p.Title ($p.Date | time.Format ":date_medium") }}{{ end }}
+{{- if .flat }}
+<a class="spine spine--flat" href="{{ $p.RelPermalink }}" style="--bg: {{ $c.bg | safeCSS }}; --fg: {{ $c.fg | safeCSS }}; --w: {{ $w }}" aria-label="{{ $label }}">
+    <span class="spine__title">{{ $p.Title }}</span>
+    <span class="spine__mono" aria-hidden="true">{{ $monogram }}</span>
+</a>
+{{- else }}
+<a class="spine" href="{{ $p.RelPermalink }}" style="--bg: {{ $c.bg | safeCSS }}; --fg: {{ $c.fg | safeCSS }}; --w: {{ $w }}; --h: {{ $h }}; --fs: {{ $fs }}" aria-label="{{ $label }}">
+    <span class="spine__band" aria-hidden="true"></span>
+    <span class="spine__title" aria-hidden="true">{{ $p.Title }}{{ if .new }}<em>new</em>{{ end }}</span>
+    <span class="spine__mono" aria-hidden="true">{{ $monogram }}</span>
+</a>
+{{- end }}

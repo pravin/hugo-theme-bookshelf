@@ -1,0 +1,8 @@
+{{- /* Maps each tag to its rank (most used first), so the commonest subjects get distinct colours */ -}}
+{{- $m := dict }}
+{{- with site.Taxonomies.tags }}
+  {{- range $i, $t := .ByCount }}
+    {{- $m = merge $m (dict ($t.Page.Data.Term | lower | urlize) $i) }}
+  {{- end }}
+{{- end }}
+{{- return $m }}

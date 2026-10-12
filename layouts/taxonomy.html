@@ -1,0 +1,23 @@
+{{ define "main" }}
+<div class="wrap">
+    <header class="page-head">
+        <p class="kicker kicker--ox">Index</p>
+        <h1>{{ .Title }}</h1>
+        <p>{{ len .Data.Terms }} subjects. Each volume is as long as the number of pieces filed under it.</p>
+    </header>
+    {{- $terms := .Data.Terms.ByCount }}
+    {{- $most := 1 }}
+    {{- with $terms }}{{ $most = (index . 0).Count }}{{ end }}
+    <ul class="stack">
+        {{- range $terms }}
+        {{- $c := partial "bookshelf/colour.html" .Page.Data.Term }}
+        <li>
+            <a class="spine spine--flat spine--term" href="{{ .Page.RelPermalink }}" style="--bg: {{ $c.bg | safeCSS }}; --fg: {{ $c.fg | safeCSS }}; --len: {{ add 30 (div (mul 70 .Count) $most) }}%">
+                <span class="spine__title">{{ .Page.LinkTitle }}</span>
+                <span class="spine__mono">{{ .Count }}</span>
+            </a>
+        </li>
+        {{- end }}
+    </ul>
+</div>
+{{ end }}

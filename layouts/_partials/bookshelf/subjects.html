@@ -1,0 +1,12 @@
+{{- /* Tags with their cloth colour and number of posts. Expects a limit (0 = all) */ -}}
+{{- $limit := . | default 0 }}
+{{- with site.Taxonomies.tags }}
+{{- $terms := .ByCount }}
+{{- if gt $limit 0 }}{{ $terms = first $limit $terms }}{{ end }}
+<ul class="subjects">
+    {{- range $terms }}
+    {{- $c := partial "bookshelf/colour.html" .Page.Data.Term }}
+    <li><a href="{{ .Page.RelPermalink }}"><span class="swatch" style="--bg: {{ $c.bg | safeCSS }}" aria-hidden="true"></span>{{ .Page.LinkTitle }} <span class="count">{{ .Count }}</span></a></li>
+    {{- end }}
+</ul>
+{{- end }}

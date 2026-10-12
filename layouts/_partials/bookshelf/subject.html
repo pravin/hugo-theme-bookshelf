@@ -1,0 +1,4 @@
+{{- /* Returns the subject key of a page: its first tag, or "" when untagged */ -}}
+{{- $s := "" }}
+{{- with .Params.tags }}{{ $s = index . 0 }}{{ end }}
+{{- return $s }}

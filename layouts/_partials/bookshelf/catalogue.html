@@ -1,0 +1,19 @@
+{{- /* A list of pages with their subject colour, description, date and reading time */ -}}
+<ol class="catalogue">
+    {{- range . }}
+    {{- $c := partial "bookshelf/colour.html" ((partial "bookshelf/subject.html" .) | default .Title) }}
+    <li>
+        <a class="catalogue__row" href="{{ .RelPermalink }}">
+            <span class="swatch" style="--bg: {{ $c.bg | safeCSS }}" aria-hidden="true"></span>
+            <span class="catalogue__text">
+                <span class="catalogue__title">{{ .Title }}</span>
+                {{- with .Description }}<span class="catalogue__desc">{{ . }}</span>{{ end }}
+            </span>
+            <span class="catalogue__meta">
+                {{- if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_medium" }}</time><br>{{ end }}
+                {{- .ReadingTime }} min
+            </span>
+        </a>
+    </li>
+    {{- end }}
+</ol>

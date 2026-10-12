@@ -1,0 +1,27 @@
+{{- /*
+Returns {bg, fg} for a subject key (a tag, or a title for untagged posts).
+Tags take palette colours in order of how often they are used; anything else is hashed.
+params.bookshelf.colors can pin a tag to a hex colour; its label colour is then
+chosen for contrast.
+*/ -}}
+{{- $key := . | lower | urlize }}
+{{- $palette := partialCached "bookshelf/palette.html" site "palette" }}
+{{- $ranks := partialCached "bookshelf/termindex.html" site "termindex" }}
+{{- $i := mod (hash.FNV32a $key) (len $palette) }}
+{{- if isset $ranks $key }}{{ $i = mod (index $ranks $key) (len $palette) }}{{ end }}
+{{- $c := index $palette $i }}
+{{- $bg := index $c "bg" }}
+{{- $fg := index $c "fg" }}
+{{- with site.Params.bookshelf.colors }}
+  {{- with index . $key }}
+    {{- $bg = . }}
+    {{- $hex := strings.TrimPrefix "#" . }}
+    {{- if eq (len $hex) 6 }}
+      {{- $r := int (printf "0x%s" (substr $hex 0 2)) }}
+      {{- $g := int (printf "0x%s" (substr $hex 2 2)) }}
+      {{- $b := int (printf "0x%s" (substr $hex 4 2)) }}
+      {{- $fg = cond (gt (add (mul $r 299) (mul $g 587) (mul $b 114)) 150000) "#1D1A16" "#F2E8D0" }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- return dict "bg" $bg "fg" $fg }}

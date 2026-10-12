@@ -1,0 +1,12 @@
+name = "Bookshelf"
+license = "MIT"
+licenselink = "https://github.com/pravin/hugo-theme-bookshelf/blob/main/LICENSE"
+description = "A blog theme where every post is a book spine on a shelf, as thick as the piece is long and coloured by its subject, with articles set like the pages of a book"
+homepage = "https://github.com/pravin/hugo-theme-bookshelf/"
+tags = ["blog", "responsive", "minimal", "light", "dark", "typography", "disqus", "personal"]
+features = ["posts", "dark mode", "syntax highlighting", "comments", "reading progress", "tags"]
+min_version = "0.146.0"
+
+[author]
+  name = "Pravin Paratey"
+  homepage = "https://cto.me.uk"

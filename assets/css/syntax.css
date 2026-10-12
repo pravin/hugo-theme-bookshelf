@@ -1,0 +1,27 @@
+/* Syntax highlighting for Hugo's Chroma highlighter. Colours are the --hl-* tokens in
+   style.css, so they follow light and dark mode. Requires markup.highlight.noClasses = false. */
+.chroma { -webkit-text-size-adjust: none; }
+.chroma .lnlinks { outline: none; text-decoration: none; color: inherit; }
+.chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+.chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+.chroma .hl { display: block; background: var(--hl-line); }
+.chroma .lnt, .chroma .ln { white-space: pre; user-select: none; margin-right: 0.6em; padding: 0 0.4em; color: var(--hl-com); }
+.chroma .line { display: flex; }
+
+.chroma .err { color: var(--hl-kw); text-decoration: underline wavy; }
+.chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: var(--hl-kw); font-weight: 600; }
+.chroma .nt { color: var(--hl-kw); }
+.chroma .na, .chroma .nv, .chroma .vc, .chroma .vg, .chroma .vi, .chroma .vm { color: var(--hl-attr); }
+.chroma .nb, .chroma .bp, .chroma .nc, .chroma .nf, .chroma .fm, .chroma .nd, .chroma .ne, .chroma .nn, .chroma .no { color: var(--hl-fn); }
+.chroma .s, .chroma .sa, .chroma .sb, .chroma .sc, .chroma .dl, .chroma .sd, .chroma .s2, .chroma .se, .chroma .sh, .chroma .si, .chroma .sx, .chroma .sr, .chroma .s1, .chroma .ss { color: var(--hl-str); }
+.chroma .m, .chroma .mb, .chroma .mf, .chroma .mh, .chroma .mi, .chroma .il, .chroma .mo { color: var(--hl-num); }
+.chroma .o, .chroma .ow, .chroma .p { color: inherit; }
+.chroma .ow { font-weight: 600; }
+.chroma .c, .chroma .ch, .chroma .cm, .chroma .c1, .chroma .cs, .chroma .cp, .chroma .cpf { color: var(--hl-com); font-style: italic; }
+.chroma .cp, .chroma .cpf { font-style: normal; }
+.chroma .gd { color: var(--hl-kw); }
+.chroma .gi { color: var(--hl-str); }
+.chroma .ge { font-style: italic; }
+.chroma .gs { font-weight: 700; }
+.chroma .gh, .chroma .gu { color: var(--hl-attr); font-weight: 700; }
+.chroma .go, .chroma .gp { color: var(--hl-com); }
